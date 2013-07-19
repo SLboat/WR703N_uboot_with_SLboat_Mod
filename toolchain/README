@@ -1,2 +1,9 @@
 Here you should extract toolchain for AR71xx platform (MIPS).
 For example: http://downloads.openwrt.org/attitude_adjustment/12.09-rc1/ar71xx/generic/OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2
+
+---
+森亮号备注：
+* 这里需要一个完整工具链，并且直接解压后的文件丢入
+* 12.09 final 的工具链
+　http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2
+
