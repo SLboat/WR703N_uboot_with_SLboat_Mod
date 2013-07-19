@@ -524,9 +524,12 @@ int ag7240_enet_initialize(bd_t * bis)
         if(ar7240_reg_rd(AR7240_RESET)!=0)
 	{
 		ar7240_reg_wr(AR7240_RESET,0);
-		printf("blah blah blah ...\n");
-		printf("blah blah blah ...\n");
-		printf("blah blah blah ...\n");
+		printf("\n");
+		printf(">aya,if any bad thing happen! ...\n");
+		printf(">aya,then i will going to web failsafe! ...\n");
+		printf(">the web failsafe is by great mips!...\n");
+		printf("-this is a uboot mod by slboat...\n");
+		printf("\n");
 	}
     }
 

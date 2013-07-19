@@ -426,7 +426,12 @@ void main_loop (void)
 			//give more time do the phy link,different phy may need different time,
 			//so here give a more long time let most of the people work ok...if you are
 			//a busy a man and don't want to wait,you can reduce this vaule !!!
-			bootdelay = 5;
+
+			bootdelay = 7;
+
+			printf("You push the reset button at power on,let's have 7 second to wait,you may have a good luck in today:)\n");
+			printf("in the wait time you can have more chance to enter the console,just type 'tpl',and press enter -- SLBoat\n");
+			printf("\n");
 		}
 # endif
 
@@ -438,8 +443,10 @@ void main_loop (void)
 # ifdef CONFIG_CMD_HTTPD
 		if (ar7240_is_rst_button_pushed())
 		{
-			printf("You push the button,starting httpd to update firmware ...\n");
-			NetLoopHttpd();
+			printf("You push the reset button again,why doing this:) -- SLBoat\n");
+			printf("\n");
+			//printf("You push the button,starting httpd to update firmware ...\n");
+			//NetLoopHttpd();
 		}
 # endif
 
@@ -1032,3 +1039,4 @@ int do_run (cmd_tbl_t * cmdtp, int flag, int argc, char *argv[])
 	return 0;
 }
 #endif	/* CFG_CMD_RUN */
+

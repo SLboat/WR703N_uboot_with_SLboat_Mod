@@ -3,7 +3,7 @@ export BUILD_TOPDIR=$(PWD)
 MAKECMD=make ARCH=mips CROSS_COMPILE=mips-openwrt-linux-uclibc-
 export PATH:=$(BUILD_TOPDIR)/toolchain/OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33/bin/:$(PATH)
 export STAGING_DIR=$(BUILD_TOPDIR)/tmp
-export FLASH_SIZE=4
+export FLASH_SIZE=16
 export COMPRESSED_UBOOT=1
 export MAX_UBOOT_SIZE=130048 #size 0x1fc00
 export CONFIG_HORNET_1_1_WAR=1

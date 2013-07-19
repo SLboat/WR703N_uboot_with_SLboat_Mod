@@ -14,7 +14,14 @@
 
 //#define FLASH_SIZE 4
 
-#if (FLASH_SIZE == 8)
+//slboat:added this for 16M,just compile
+#if (FLASH_SIZE == 16)
+#define CFG_MAX_FLASH_BANKS     1	    /* max number of memory banks */
+#define CFG_MAX_FLASH_SECT      256     /* max number of sectors on one chip */
+#define CFG_FLASH_SECTOR_SIZE   (64*1024)
+#define CFG_FLASH_SIZE          0x01000000 /* Total flash size */
+
+#elif (FLASH_SIZE == 8)
 #define CFG_MAX_FLASH_BANKS     1	    /* max number of memory banks */
 #define CFG_MAX_FLASH_SECT      128     /* max number of sectors on one chip */
 #define CFG_FLASH_SECTOR_SIZE   (64*1024)
@@ -81,7 +88,10 @@
 #undef MTDPARTS_DEFAULT
 
 /* by wdl, 25Oct11, no more use here */
-#if (FLASH_SIZE == 8)
+#if (FLASH_SIZE == 16)
+#define    CONFIG_BOOTARGS     "console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:128k(u-boot),1024k(kernel),15104(rootfs),64k(config),64k(ART)"
+#define MTDPARTS_DEFAULT    "mtdparts=ar7240-nor0:256k(u-boot),64k(u-boot-env),2752k(rootfs),896k(uImage),64k(NVRAM),64k(ART)"
+#elif (FLASH_SIZE == 8)
 #define	CONFIG_BOOTARGS     "console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:128k(u-boot),1024k(kernel),6912(rootfs),64k(config),64k(ART)"
 #define MTDPARTS_DEFAULT    "mtdparts=ar7240-nor0:256k(u-boot),64k(u-boot-env),2752k(rootfs),896k(uImage),64k(NVRAM),64k(ART)"
 #elif (FLASH_SIZE == 4)
@@ -223,7 +233,9 @@
 #define CFG_ENV_ADDR		0x9f040000
 #define CFG_ENV_SIZE		0x10000
 
-#if (FLASH_SIZE == 8)
+#if (FLASH_SIZE == 16)
+    #define CONFIG_BOOTCOMMAND "bootm 0x9f020000"
+#elif (FLASH_SIZE == 8)
     #define CONFIG_BOOTCOMMAND "bootm 0x9f020000"
 #elif (FLASH_SIZE == 4)
     #define CONFIG_BOOTCOMMAND "bootm 0x9f020000"
@@ -352,13 +364,16 @@
 ** NOTE: **This will change with different flash configurations**
 */
 
-#if (FLASH_SIZE == 8)
+#if (FLASH_SIZE == 16) //that's added for 16Mbyte - slboat
+#define WLANCAL                         0xbfff1000
+#define BOARDCAL                        0xbfff0000
+#elif (FLASH_SIZE == 8)
 #define WLANCAL                        0xbf7f1000
 #define BOARDCAL                       0xbf7f0000
 #elif (FLASH_SIZE == 4)
 #define WLANCAL                        0xbf3f1000
 #define BOARDCAL                       0xbf3f0000
-#else
+#else //for 2mbyte stuff
 #define WLANCAL                        0xbf1f1000
 #define BOARDCAL                       0xbf1f0000
 #endif

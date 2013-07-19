@@ -7,6 +7,10 @@
 
 #include <configs/ar7240.h>
 
+//Support 8M/16M flash
+//#define FLASH_SIZE 16
+//--added hope work for 16Mbyte
+
 #if (FLASH_SIZE == 16)
 #undef COMPRESSED_UBOOT
 #endif
