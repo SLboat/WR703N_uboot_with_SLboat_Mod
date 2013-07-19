@@ -296,7 +296,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_ACTIVE_OPEN 1
+#define UIP_ACTIVE_OPEN 0
 
 /**
  * The maximum number of simultaneously open TCP connections.
@@ -307,7 +307,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_CONNS       10
+#define UIP_CONNS       2
 
 /**
  * The maximum number of simultaneously listening TCP ports.
@@ -316,7 +316,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_LISTENPORTS 10
+#define UIP_LISTENPORTS 1
 
 /**
  * The size of the advertised receiver's window.
@@ -338,7 +338,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_URGDATA      1
+#define UIP_URGDATA      0
 
 /**
  * The initial retransmission timeout counted in timer pulses.
@@ -395,7 +395,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_ARPTAB_SIZE 8
+#define UIP_ARPTAB_SIZE 2
 
 /**
  * The maxium age of ARP table entries measured in 10ths of seconds.
@@ -433,7 +433,7 @@ typedef unsigned short uip_stats_t;
  *
  * \hideinitializer
  */
-#define UIP_STATISTICS  1
+#define UIP_STATISTICS  0
 
 /**
  * Determines if logging of certain events should be compiled in.

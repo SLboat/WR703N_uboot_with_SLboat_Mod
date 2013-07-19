@@ -18,7 +18,7 @@ void *malloc(size_t);
 void free(void*);
 void udelay(unsigned long);
 unsigned long get_timer(unsigned long);
-void vprintf(const char *, va_list);
+//void vprintf(const char *, va_list);
 void do_reset (void);
 #if (CONFIG_COMMANDS & CFG_CMD_I2C)
 int i2c_write (uchar, uint, int , uchar* , int);

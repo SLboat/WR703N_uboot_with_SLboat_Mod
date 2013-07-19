@@ -111,7 +111,7 @@
 #define BOOL    int
 #endif
 
-#define sysMsDelay(_x) udelay((_x) * 1000)
+#define sysMsDelay(_x)	udelay((_x) * 1000)
 #define mdelay(_x)      sysMsDelay(_x)
 
 #define S26_FORCE_100M 1

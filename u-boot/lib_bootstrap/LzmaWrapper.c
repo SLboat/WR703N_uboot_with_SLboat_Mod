@@ -40,10 +40,12 @@
 #include "LzmaDecode.h"
 #include "LzmaWrapper.h"
 
+#ifdef DEBUG_ENABLE_BOOTSTRAP_PRINTF
 static const char *kCantReadMessage = "Can not read from source buffer";
 static const char *kCantAllocateMessage = "Not enough buffer for decompression";
+#endif
 
-static size_t rpos=0, dpos=0;
+static size_t rpos=0;
 
 static int MyReadFileAndCheck(unsigned char *src, void *dest, size_t size)
 {

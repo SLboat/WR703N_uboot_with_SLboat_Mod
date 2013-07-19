@@ -116,11 +116,6 @@ simple_mips_cache_reset:
         li      t4, CFG_CACHELINE_SIZE
 
         mtc0    zero, CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 
         li      t0, K0BASE
     	add     t2, t2, t0
@@ -188,14 +183,7 @@ mips_cache_reset:
 
 	/* Set invalid tag.
 	 */
-
-
 	mtc0	zero, CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 
 
    /*
@@ -295,11 +283,7 @@ dcache_disable:
 * RETURNS: N/A
 *
 */
-#if defined(CONFIG_PURPLE)
-# define	CACHE_LOCK_SIZE	(CFG_DCACHE_SIZE/2)
-#else
-# define	CACHE_LOCK_SIZE	(CFG_DCACHE_SIZE)
-#endif
+#define	CACHE_LOCK_SIZE	(CFG_DCACHE_SIZE)
 	.globl	mips_cache_lock
 	.ent	mips_cache_lock
 mips_cache_lock:
@@ -347,11 +331,6 @@ mips_cache_flush:
     li      t2, KSEG0
     addu    t3, t0, t2
     mtc0    zero, CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 cache_loop_flush:
     cache   Hit_Invalidate_I, 0(t2)
     addu    t2, t1
@@ -385,11 +364,6 @@ mips_icache_flush_ix:	/* Flush caches Index Invalidate */
 	li	t2,	KUSEG
 	addu	t3,	t0,	t2
 	mtc0	zero,	CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 icache_loop_flush_ix:
 	cache	Index_Invalidate_I,	0(t2)
 	addu	t2,	t1
@@ -414,22 +388,12 @@ mips_cache_lock_24k:
     li      t2, KSEG0
     addu    t3, t0, t2
     mtc0    zero, CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 cache_loop_lock:
 
     li      t5, 0xfffff000
     and     t4, t2, t5
     ori     t4, t4, (1 << 7)
     mtc0    t4, CP0_TAGLO
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 
     cache   Index_Load_Tag_D, 0(t2)
     cache   0x1d, 0(t2)

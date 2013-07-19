@@ -35,19 +35,15 @@ typedef struct {
     
 }ag7240_mac_t;
 
-#define ag7240_reg_wr(_mac, _x, _y)   ar7240_reg_wr(((_x) + _mac->mac_base), (_y))
-#define ag7240_reg_rd(_mac, _x)       ar7240_reg_rd(((_x) + _mac->mac_base))
+#define ag7240_reg_wr(_mac, _x, _y)			ar7240_reg_wr(((_x) + _mac->mac_base), (_y))
+#define ag7240_reg_rd(_mac, _x)				ar7240_reg_rd(((_x) + _mac->mac_base))
 
-#define ag7240_reg_rmw_set(_mac, _x, _y)   \
-    ar7240_reg_rmw_set(((_x) + _mac->mac_base ), (_y))
-#define ag7240_reg_rmw_clear(_mac, _x, _y)    \
-    ar7240_reg_rmw_clear(((_x) + _mac->mac_base), (_y))
+#define ag7240_reg_rmw_set(_mac, _x, _y)	ar7240_reg_rmw_set(((_x) + _mac->mac_base ), (_y))
+#define ag7240_reg_rmw_clear(_mac, _x, _y)	ar7240_reg_rmw_clear(((_x) + _mac->mac_base), (_y))
 
-#ifdef COMPRESSED_UBOOT
 #define _1000BASET 1000
 #define _100BASET 100
 #define _10BASET 10
-#endif /* #ifdef COMPRESSED_UBOOT */
 
 /*
  * spd is _1000BASET, _100BASET etc. defined in include/miiphy.h

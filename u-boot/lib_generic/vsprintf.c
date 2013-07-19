@@ -15,11 +15,10 @@
 #include <linux/ctype.h>
 
 #include <common.h>
-#if !defined (CONFIG_PANIC_HANG)
 #include <command.h>
+
 /*cmd_boot.c*/
 extern int do_reset (cmd_tbl_t *cmdtp, int flag, int argc, char *argv[]);
-#endif
 
 unsigned long simple_strtoul(const char *cp,char **endp,unsigned int base)
 {
@@ -367,19 +366,4 @@ int sprintf(char * buf, const char *fmt, ...)
 	i=vsprintf(buf,fmt,args);
 	va_end(args);
 	return i;
-}
-
-void panic(const char *fmt, ...)
-{
-	va_list	args;
-	va_start(args, fmt);
-	vprintf(fmt, args);
-	putc('\n');
-	va_end(args);
-#if defined (CONFIG_PANIC_HANG)
-	hang();
-#else
-	udelay (100000);	/* allow messages to go out */
-	do_reset (NULL, 0, 0, NULL);
-#endif
 }

@@ -1,6 +1,0 @@
-# ROM version
-#TEXT_BASE = 0x80500000
-TEXT_BASE = 0xbf000000
-
-# SDRAM version
-#TEXT_BASE = 0xa1000000

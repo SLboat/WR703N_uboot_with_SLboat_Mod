@@ -54,7 +54,7 @@ int strnicmp(const char *s1, const char *s2, size_t len)
 }
 #endif
 
-char * ___strtok;
+//char * ___strtok;
 
 #ifndef __HAVE_ARCH_STRCPY
 /**
@@ -113,7 +113,8 @@ char * strcat(char * dest, const char * src)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRNCAT
+#if 0 /* not used - was: #ifndef __HAVE_ARCH_STRNICMP */
+//#ifndef __HAVE_ARCH_STRNCAT
 /**
  * strncat - Append a length-limited, %NUL-terminated string to another
  * @dest: The string to be appended to
@@ -197,7 +198,8 @@ char * strchr(const char * s, int c)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRRCHR
+#if 0 /* not used - was: #ifndef __HAVE_ARCH_STRNICMP */
+//#ifndef __HAVE_ARCH_STRRCHR
 /**
  * strrchr - Find the last occurrence of a character in a string
  * @s: The string to be searched
@@ -245,7 +247,8 @@ size_t strnlen(const char * s, size_t count)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRDUP
+#if 0 /* not used - was: #ifndef __HAVE_ARCH_STRNICMP */
+//#ifndef __HAVE_ARCH_STRDUP
 char * strdup(const char *s)
 {
 	char *new;
@@ -307,7 +310,8 @@ char * strpbrk(const char * cs,const char * ct)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRTOK
+#if 0 /* not used - was: #ifndef __HAVE_ARCH_STRNICMP */
+//#ifndef __HAVE_ARCH_STRTOK
 /**
  * strtok - Split a string into tokens
  * @s: The string to be searched
@@ -336,7 +340,8 @@ char * strtok(char * s,const char * ct)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRSEP
+#if 0 /* not used */
+//#ifndef __HAVE_ARCH_STRSEP
 /**
  * strsep - Split a string into tokens
  * @s: The string to be searched
@@ -364,7 +369,8 @@ char * strsep(char **s, const char *ct)
 }
 #endif
 
-#ifndef __HAVE_ARCH_STRSWAB
+#if 0 /* not used */
+//#ifndef __HAVE_ARCH_STRSWAB
 /**
  * strswab - swap adjacent even and odd bytes in %NUL-terminated string
  * s: address of the string
@@ -412,7 +418,8 @@ void * memset(void * s,int c,size_t count)
 }
 #endif
 
-#ifndef __HAVE_ARCH_BCOPY
+#if 0 /* not used */
+//#ifndef __HAVE_ARCH_BCOPY
 /**
  * bcopy - Copy one area of memory to another
  * @src: Where to copy from
@@ -506,7 +513,8 @@ int memcmp(const void * cs,const void * ct,size_t count)
 }
 #endif
 
-#ifndef __HAVE_ARCH_MEMSCAN
+#if 0 /* not used */
+//#ifndef __HAVE_ARCH_MEMSCAN
 /**
  * memscan - Find a character in an area of memory.
  * @addr: The memory area
@@ -554,7 +562,8 @@ char * strstr(const char * s1,const char * s2)
 }
 #endif
 
-#ifndef __HAVE_ARCH_MEMCHR
+#if 0 /* not used */
+//#ifndef __HAVE_ARCH_MEMCHR
 /**
  * memchr - Find a character in an area of memory.
  * @s: The memory area

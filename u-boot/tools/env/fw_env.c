@@ -139,9 +139,6 @@ static uchar default_environment[] = {
 #ifdef	CONFIG_LOADADDR
 	"loadaddr=" MK_STR (CONFIG_LOADADDR) "\0"
 #endif
-#ifdef	CONFIG_PREBOOT
-	"preboot=" CONFIG_PREBOOT "\0"
-#endif
 #ifdef	CONFIG_CLOCKS_IN_MHZ
 	"clocks_in_mhz=" "1" "\0"
 #endif

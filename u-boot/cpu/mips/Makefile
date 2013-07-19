@@ -25,13 +25,10 @@ include $(TOPDIR)/config.mk
 
 LIB	= lib$(CPU).a
 
-ifeq ($(COMRESSED_UBOOT),1)
 START	= start.o start_bootstrap.o
-else
-START	= start.o
-endif
 
-OBJS	= cpu.o interrupts.o
+#OBJS	= cpu.o interrupts.o
+OBJS	= cpu.o
 SOBJS	= cache.o
 
 all:	.depend $(START) $(LIB)

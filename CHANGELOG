@@ -1,0 +1,12 @@
+Apr 22 2013
+- support for TL-WR740N ver. 4 (tested on ver. 4.23)
+- NetConsole
+- flash recognize by JEDEC ID (please, see README for full list)
+- returned to instruction 0xD8 for flash erasing (64 KiB block erase)
+- setmac command
+- web pages lifting
+- some bugs fixed
+- predefined overclocking profiles in code (please, see ap121.h)
+
+Mar 29 2013
+- initial release

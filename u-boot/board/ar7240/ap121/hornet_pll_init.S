@@ -194,9 +194,9 @@ pmu_loop1:
     //li  t7, 0x031c4356    /* 1.175V */     
     //li  t7, 0x031c4366    /* 1.200V */
     //li  t7, 0x031c4376    /* 1.225V */
-    li  t7, 0x031c4386    /* 1.250V */
+    li  t7, 0x031c4386    /* 1.250V (DEFAULT) */
     //li  t7, 0x031c4396    /* 1.275V */
-    //li  t7, 0x031c43a6    /* 1.300V */    
+    //li  t7, 0x031c43a6    /* 1.300V */
     nop
 #if 1 /* from OTP */
     li  t8, 0xffffff0f
@@ -263,12 +263,12 @@ pmu_loop2_end:
     nop
 #endif
 
-	/* max AHB Master wait time out ... */
-    set_reg(0xb800009c, 0xfffff)
+/* max AHB Master wait time out ... */
+   set_reg(0xb800009c, 0xfffff)
 	nop
 
 /* set PLL bypass(Bit 2), CPU_POST_DIV, DDR_POST_DIV, AHB_POST_DIV in CPU clock control */
-    set_reg(AR7240_CPU_CLOCK_CONTROL, 0x00018004)
+    set_reg(AR7240_CPU_CLOCK_CONTROL, CPU_CLK_CONTROL_VAL1)
 	nop
 	
 /* set SETTLE_TIME in CPU PLL */

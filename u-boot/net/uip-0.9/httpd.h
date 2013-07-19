@@ -50,34 +50,28 @@ void httpd_init(void);
 void httpd_appcall(void);
 
 /* UIP_APPCALL: the name of the application function. This function
-   must return void and take no arguments (i.e., C type "void
-   appfunc(void)"). */
+ must return void and take no arguments (i.e., C type "void
+ appfunc(void)"). */
 #ifndef UIP_APPCALL
 #define UIP_APPCALL		httpd_appcall
 #endif
 
 struct httpd_state {
-  u8_t state;
-  u16_t count;
-  char *dataptr;
-  char *script;
-  unsigned int upload;
-  unsigned int upload_total;
+	u8_t state;
+	u16_t count;
+	u8_t *dataptr;
+	unsigned int upload;
+	unsigned int upload_total;
 };
 
-
 /* UIP_APPSTATE_SIZE: The size of the application-specific state
-   stored in the uip_conn structure. */
+ stored in the uip_conn structure. */
 #ifndef UIP_APPSTATE_SIZE
 #define UIP_APPSTATE_SIZE (sizeof(struct httpd_state))
 #endif
 
-#define FS_STATISTICS 1
+//#define FS_STATISTICS 1
 
 extern struct httpd_state *hs;
-
-
-/* we copy the data to RAM+10MB */
-#define TMP_DATA 0x8A100000
 
 #endif /* __HTTPD_H__ */

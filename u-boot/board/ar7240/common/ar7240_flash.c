@@ -5,91 +5,206 @@
 #include "ar7240_soc.h"
 #include "ar7240_flash.h"
 
+#define	SIZE_INBYTES_4MBYTES	(4 * 1024 * 1024)
+#define	SIZE_INBYTES_8MBYTES	(2 * SIZE_INBYTES_4MBYTES)
+#define	SIZE_INBYTES_16MBYTES	(2 * SIZE_INBYTES_8MBYTES)
+
+#define	SIZE_INBYTES_4KBYTES	(4 * 1024)
+#define	SIZE_INBYTES_64KBYTES	(16 * SIZE_INBYTES_4KBYTES)
+
 /*
  * globals
  */
 flash_info_t flash_info[CFG_MAX_FLASH_BANKS];
-
-#undef display
-#define display(x)  ;
 
 /*
  * statics
  */
 static void ar7240_spi_write_enable(void);
 static void ar7240_spi_poll(void);
-#if !defined(ATH_SST_FLASH)
 static void ar7240_spi_write_page(uint32_t addr, uint8_t * data, int len);
-#endif
 static void ar7240_spi_sector_erase(uint32_t addr);
 
-static void
-read_id(void)
-{
-	u32 rd = 0x777777;
+/*
+ * Returns JEDEC ID from SPI flash
+ */
+static ulong read_id(void) {
+	unsigned int flashid = 0;
 
+	ar7240_reg_wr_nf(AR7240_SPI_FS, 1);
 	ar7240_reg_wr_nf(AR7240_SPI_WRITE, AR7240_SPI_CS_DIS);
-	ar7240_spi_bit_banger(0x9f);
+
+	ar7240_spi_bit_banger(0x9F);
+
 	ar7240_spi_delay_8();
 	ar7240_spi_delay_8();
 	ar7240_spi_delay_8();
-	ar7240_spi_done();
-	/* rd = ar7240_reg_rd(AR7240_SPI_RD_STATUS); */
-	rd = ar7240_reg_rd(AR7240_SPI_READ);
-	printf("id read %#x\n", rd);
-}
+	ar7240_spi_delay_8();
 
-
-#ifdef ATH_SST_FLASH
-void ar7240_spi_flash_unblock(void)
-{
-	ar7240_spi_write_enable();
-	ar7240_spi_bit_banger(AR7240_SPI_CMD_WRITE_SR);
-	ar7240_spi_bit_banger(0x0);
-	ar7240_spi_go();
-	ar7240_spi_poll();
-}
-#endif
-
-unsigned long flash_init(void)
-{
-#ifndef CONFIG_WASP
-#ifdef ATH_SST_FLASH
-	ar7240_reg_wr_nf(AR7240_SPI_CLOCK, 0x3);
-	ar7240_spi_flash_unblock();
-	ar7240_reg_wr(AR7240_SPI_FS, 0);
-#else
-	ar7240_reg_wr_nf(AR7240_SPI_CLOCK, 0x43);
-#endif
-#endif
-	read_id();
+	flashid = ar7240_reg_rd(AR7240_SPI_RD_STATUS);
 
 	/*
-	 * hook into board specific code to fill flash_info
+	 * We have 3 bytes:
+	 * - manufacture ID (1b)
+	 * - product ID (2b)
 	 */
-	return (flash_get_geom(&flash_info[0]));
+	flashid = flashid >> 8;
+
+	ar7240_spi_done();
+
+	return (ulong) flashid;
 }
 
-void
-flash_print_info(flash_info_t *info)
-{
-	printf("The hell do you want flinfo for??\n");
+static void flash_set_geom(int size, int sector_count, int sector_size) {
+	int i;
+	flash_info_t *info = &flash_info[0];
+
+	info->size = size;
+	info->sector_count = sector_count;
+	info->sector_size = sector_size;
+
+	for (i = 0; i < info->sector_count; i++) {
+		info->start[i] = CFG_FLASH_BASE + (i * info->sector_size);
+		info->protect[i] = 0;
+	}
+
+	// set bootargs in env
+	if(size == SIZE_INBYTES_8MBYTES){
+		setenv("bootargs", "console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:128k(u-boot),8000(firmware),64k(ART)");
+	} else if(size == SIZE_INBYTES_16MBYTES){
+		setenv("bootargs", "console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:128k(u-boot),16192(firmware),64k(ART)");
+	}
+
 }
 
-int
-flash_erase(flash_info_t *info, int s_first, int s_last)
-{
-	int i, sector_size = info->size / info->sector_count;
+unsigned long flash_init(void) {
+	flash_info_t *info;
 
-	printf("\nFirst %#x last %#x sector size %#x\n",
-	       s_first, s_last, sector_size);
+	info = &flash_info[0];
+
+	// spi flash clock
+	ar7240_reg_wr(AR7240_SPI_FS,	0x01);
+	ar7240_reg_wr(AR7240_SPI_CLOCK,	AR7240_SPI_CONTROL);
+	ar7240_reg_wr(AR7240_SPI_FS,	0x0);
+
+	// get flash id
+	info->flash_id = read_id();
+
+	puts("FLASH: ");
+
+	// fill flash info based on JEDEC ID
+	switch (info->flash_id) {
+		/*
+		 * 4M flash chips
+		 */
+		case 0x010215:	// tested
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Spansion S25FL032P (4 MB)");
+			break;
+
+		case 0x1F4700:
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Atmel AT25DF321 (4 MB)");
+			break;
+
+		case 0x1C3016:	// tested
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("EON EN25Q32 (4 MB)");
+			break;
+
+		case 0x202016:
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Micron M25P32 (4 MB)");
+			break;
+
+		case 0xEF4016:
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Windbond W25Q32 (4 MB)");
+			break;
+
+		case 0xC22016:
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Macronix MX25L320 (4 MB)");
+			break;
+
+			/*
+			 * 8M flash chips
+			 */
+		case 0x010216:
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("Spansion S25FL064P (8 MB)");
+			break;
+
+		case 0x1F4800:
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("Atmel AT25DF641 (8 MB)");
+			break;
+
+		case 0x1C3017:	// tested
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("EON EN25Q64 (8 MB)");
+			break;
+
+		case 0x202017:
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("Micron M25P64 (8 MB)");
+			break;
+
+		case 0xEF4017:	// tested
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("Windbond W25Q64 (8 MB)");
+			break;
+
+		case 0xC22017:	// tested
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("Macronix MX25L640 (8 MB)");
+			break;
+
+			/*
+			 * 16M flash chips
+			 */
+		case 0xEF4018:	// tested
+			flash_set_geom(SIZE_INBYTES_16MBYTES, 256, SIZE_INBYTES_64KBYTES);
+			puts("Winbond W25Q128 (16 MB)");
+			break;
+
+			/*
+			 * Unknown flash -> set 4M with 64 KiB erase block
+			 */
+		default:
+			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
+			puts("Unknown type (using only 4 MB)\n");
+			printf("\nPlease, send request to add support\nfor your flash - JEDEC ID: 0x%06lX", info->flash_id);
+			info->flash_id = FLASH_M25P64;
+			break;
+	}
+
+	return (info->size);
+}
+
+int flash_erase(flash_info_t *info, int s_first, int s_last) {
+	int i, j, sector_size = info->size / info->sector_count;
+
+	//printf("First sector:\t%d\nLast sector:\t%d\nSector size:\t%d bytes\n", s_first, s_last, sector_size);
+	printf("Erasing: ");
+
+	j = 0;
 
 	for (i = s_first; i <= s_last; i++) {
-		printf("\b\b\b\b%4d", i);
 		ar7240_spi_sector_erase(i * sector_size);
+
+		if (j == 39) {
+			puts("\n         ");
+			j = 0;
+		}
+		puts("#");
+		ar7240_led_toggle();
+		j++;
 	}
+
 	ar7240_spi_done();
-	printf("\n");
+	ar7240_all_led_off();
+	printf("\n\n");
 
 	return 0;
 }
@@ -99,89 +214,37 @@ flash_erase(flash_info_t *info, int s_first, int s_last)
  * 0. Assumption: Caller has already erased the appropriate sectors.
  * 1. call page programming for every 256 bytes
  */
-#ifdef ATH_SST_FLASH
-void
-ar7240_spi_flash_chip_erase(void)
-{
-	ar7240_spi_write_enable();
-	ar7240_spi_bit_banger(AR7240_SPI_CMD_CHIP_ERASE);
-	ar7240_spi_go();
-	ar7240_spi_poll();
-}
-
-int
-write_buff(flash_info_t *info, uchar *src, ulong dst, ulong len)
-{
-	uint32_t val;
-
-	dst = dst - CFG_FLASH_BASE;
-	printf("write len: %lu dst: 0x%x src: %p\n", len, dst, src);
-
-	for (; len; len--, dst++, src++) {
-		ar7240_spi_write_enable();	// dont move this above 'for'
-		ar7240_spi_bit_banger(AR7240_SPI_CMD_PAGE_PROG);
-		ar7240_spi_send_addr(dst);
-
-		val = *src & 0xff;
-		ar7240_spi_bit_banger(val);
-
-		ar7240_spi_go();
-		ar7240_spi_poll();
-	}
-	/*
-	 * Disable the Function Select
-	 * Without this we can't read from the chip again
-	 */
-	ar7240_reg_wr(AR7240_SPI_FS, 0);
-
-	if (len) {
-		// how to differentiate errors ??
-		return ERR_PROG_ERROR;
-	} else {
-		return ERR_OK;
-	}
-}
-#else
-int
-write_buff(flash_info_t *info, uchar *source, ulong addr, ulong len)
-{
+int write_buff(flash_info_t *info, uchar *source, ulong addr, ulong len) {
 	int total = 0, len_this_lp, bytes_this_page;
 	ulong dst;
 	uchar *src;
 
-	printf("write addr: %x\n", addr);
+	printf("Writting at address: 0x%08lX\n", addr);
 	addr = addr - CFG_FLASH_BASE;
 
 	while (total < len) {
 		src = source + total;
 		dst = addr + total;
-		bytes_this_page =
-		    AR7240_SPI_PAGE_SIZE - (addr % AR7240_SPI_PAGE_SIZE);
-		len_this_lp =
-		    ((len - total) >
-		     bytes_this_page) ? bytes_this_page : (len - total);
+		bytes_this_page = AR7240_SPI_PAGE_SIZE - (addr % AR7240_SPI_PAGE_SIZE);
+		len_this_lp = ((len - total) > bytes_this_page) ? bytes_this_page : (len - total);
 		ar7240_spi_write_page(dst, src, len_this_lp);
 		total += len_this_lp;
 	}
 
 	ar7240_spi_done();
+	printf("\n");
 
 	return 0;
 }
-#endif
 
-static void
-ar7240_spi_write_enable()
-{
+static void ar7240_spi_write_enable() {
 	ar7240_reg_wr_nf(AR7240_SPI_FS, 1);
 	ar7240_reg_wr_nf(AR7240_SPI_WRITE, AR7240_SPI_CS_DIS);
 	ar7240_spi_bit_banger(AR7240_SPI_CMD_WREN);
 	ar7240_spi_go();
 }
 
-static void
-ar7240_spi_poll()
-{
+static void ar7240_spi_poll() {
 	int rd;
 
 	do {
@@ -192,14 +255,10 @@ ar7240_spi_poll()
 	} while (rd);
 }
 
-#if !defined(ATH_SST_FLASH)
-static void
-ar7240_spi_write_page(uint32_t addr, uint8_t *data, int len)
-{
+static void ar7240_spi_write_page(uint32_t addr, uint8_t *data, int len) {
 	int i;
 	uint8_t ch;
 
-	display(0x77);
 	ar7240_spi_write_enable();
 	ar7240_spi_bit_banger(AR7240_SPI_CMD_PAGE_PROG);
 	ar7240_spi_send_addr(addr);
@@ -210,19 +269,13 @@ ar7240_spi_write_page(uint32_t addr, uint8_t *data, int len)
 	}
 
 	ar7240_spi_go();
-	display(0x66);
 	ar7240_spi_poll();
-	display(0x6d);
 }
-#endif
 
-static void
-ar7240_spi_sector_erase(uint32_t addr)
-{
+static void ar7240_spi_sector_erase(uint32_t addr) {
 	ar7240_spi_write_enable();
 	ar7240_spi_bit_banger(AR7240_SPI_CMD_SECTOR_ERASE);
 	ar7240_spi_send_addr(addr);
 	ar7240_spi_go();
-	display(0x7d);
 	ar7240_spi_poll();
 }

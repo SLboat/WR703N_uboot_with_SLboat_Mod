@@ -39,14 +39,11 @@ env_t *env_ptr = NULL;
 extern uchar default_environment[];
 extern int default_environment_size;
 
-
-void env_relocate_spec (void)
-{
+void env_relocate_spec(void) {
 }
 
-uchar env_get_char_spec (int index)
-{
-	return ( *((uchar *)(gd->env_addr + index)) );
+uchar env_get_char_spec(int index) {
+	return (*((uchar *) (gd->env_addr + index)));
 }
 
 /************************************************************************
@@ -54,9 +51,8 @@ uchar env_get_char_spec (int index)
  *
  * We are still running from ROM, so data use is limited
  */
-int  env_init(void)
-{
-	gd->env_addr  = (ulong)&default_environment[0];
+int env_init(void) {
+	gd->env_addr = (ulong) &default_environment[0];
 	gd->env_valid = 0;
 
 	return (0);

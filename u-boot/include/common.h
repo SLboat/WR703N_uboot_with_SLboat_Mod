@@ -97,7 +97,6 @@ typedef volatile unsigned char	vu_char;
 #define asmlinkage	/* nothing */
 #endif
 
-#include <part.h>
 #include <flash.h>
 #include <image.h>
 
@@ -173,30 +172,25 @@ int	serial_buffered_tstc (void);
 void	hang		(void) __attribute__ ((noreturn));
 
 /* */
-long int initdram (int);
-int	display_options (void);
-void	print_size (ulong, const char *);
+long int	initdram (int);
+void		print_size (ulong, const char *);
 
 /* common/main.c */
-void	main_loop	(void);
-int	run_command	(const char *cmd, int flag);
-int	readline	(const char *const prompt);
+void	main_loop		(void);
+int		run_command		(const char *cmd, int flag);
+int		readline 		(const char *const prompt);
 void	init_cmd_timeout(void);
 void	reset_cmd_timeout(void);
 
 /* lib_$(ARCH)/board.c */
 void	board_init_f  (ulong);
 void	board_init_r  (gd_t *, ulong);
-#ifdef COMPRESSED_UBOOT
-int	checkboard    (char *);
-#else
-int	checkboard    (void);
-#endif
-int	checkflash    (void);
-int	checkdram     (void);
+int		checkboard    (char *);
+int		checkflash    (void);
+int		checkdram     (void);
 char *	strmhz(char *buf, long hz);
-int	last_stage_init(void);
-extern ulong monitor_flash_len;
+int		last_stage_init(void);
+extern	ulong monitor_flash_len;
 
 /* common/flash.c */
 void flash_perror (int);
@@ -210,16 +204,14 @@ void	print_image_hdr (image_header_t *hdr);
 extern ulong load_addr;		/* Default Load Address */
 
 /* common/cmd_nvedit.c */
-int	env_init     (void);
+int		env_init     (void);
 void	env_relocate (void);
 char	*getenv	     (char *);
-int	getenv_r     (char *name, char *buf, unsigned len);
-int	saveenv	     (void);
-#ifdef CONFIG_PPC		/* ARM version to be fixed! */
-void inline setenv   (char *, char *);
-#else
+int		getenv_r     (char *name, char *buf, unsigned len);
+int		saveenv	     (void);
 void	setenv	     (char *, char *);
-#endif /* CONFIG_PPC */
+
+
 #ifdef CONFIG_ARM
 # include <asm/mach-types.h>
 # include <asm/setup.h>
@@ -229,16 +221,8 @@ void	setenv	     (char *, char *);
 # include <asm/u-boot-i386.h>
 #endif /* CONFIG_I386 */
 
-#ifdef CONFIG_AUTO_COMPLETE
-int env_complete(char *var, int maxv, char *cmdv[], int maxsz, char *buf);
-#endif
-
 void	pci_init      (void);
-#ifdef  COMPRESSED_UBOOT
-int	pci_init_board(void);
-#else
-void	pci_init_board(void);
-#endif /* #ifdef COMPRESSED_UBOOT */
+int		pci_init_board(void);
 void	pciinfo	      (int, int);
 
 #if defined(CONFIG_PCI) && defined(CONFIG_440)
@@ -492,9 +476,9 @@ void	timer_interrupt	   (struct pt_regs *);
 void	external_interrupt (struct pt_regs *);
 void	irq_install_handler(int, interrupt_handler_t *, void *);
 void	irq_free_handler   (int);
-void	reset_timer	   (void);
+//void	reset_timer	   (void);
 ulong	get_timer	   (ulong base);
-void	set_timer	   (ulong t);
+//void	set_timer	   (ulong t);
 void	enable_interrupts  (void);
 int	disable_interrupts (void);
 
@@ -542,7 +526,6 @@ ulong	simple_strtoul(const char *cp,char **endp,unsigned int base);
 unsigned long long	simple_strtoull(const char *cp,char **endp,unsigned int base);
 #endif
 long	simple_strtol(const char *cp,char **endp,unsigned int base);
-void	panic(const char *fmt, ...);
 int	sprintf(char * buf, const char *fmt, ...);
 int	vsprintf(char *buf, const char *fmt, va_list args);
 
@@ -574,7 +557,7 @@ int	tstc(void);
 void	putc(const char c);
 void	puts(const char *s);
 void	printf(const char *fmt, ...);
-void	vprintf(const char *fmt, va_list args);
+//void	vprintf(const char *fmt, va_list args);
 
 /* stderr */
 #define eputc(c)		fputc(stderr, c)

@@ -29,12 +29,8 @@ LIB	= libnet.a
 
 UIPDIR  = uip-0.9
 $(shell mkdir -p $(obj)$(UIPDIR)) 
- 
-ifeq ($(COMPRESSED_UBOOT),1)
-OBJS	= net.o tftp.o rarp.o eth.o
-else
-OBJS	= net.o tftp.o bootp.o rarp.o eth.o nfs.o sntp.o
-endif
+
+OBJS = net.o tftp.o rarp.o eth.o bootp.o
 
 OBJS += httpd.o $(UIPDIR)/fs.o $(UIPDIR)/httpd.o $(UIPDIR)/uip_arp.o $(UIPDIR)/uip_arch.o $(UIPDIR)/uip.o
 

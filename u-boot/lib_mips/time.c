@@ -23,20 +23,15 @@
 
 #include <common.h>
 
-
-static inline void mips_compare_set(u32 v)
-{
+static inline void mips_compare_set(u32 v) {
 	asm volatile ("mtc0 %0, $11" : : "r" (v));
 }
 
-static inline void mips_count_set(u32 v)
-{
+static inline void mips_count_set(u32 v) {
 	asm volatile ("mtc0 %0, $9" : : "r" (v));
 }
 
-
-static inline u32 mips_count_get(void)
-{
+static inline u32 mips_count_get(void) {
 	u32 count;
 
 	asm volatile ("mfc0 %0, $9" : "=r" (count) :);
@@ -49,36 +44,35 @@ unsigned long ifx_get_cpuclk(void);
  * timer without interrupts
  */
 
-int timer_init(void)
-{
+int timer_init(void) {
 	mips_compare_set(0);
 	mips_count_set(0);
 
 	return 0;
 }
 
-void reset_timer(void)
-{
+/*
+void reset_timer(void) {
 	mips_count_set(0);
 }
+*/
 
-ulong get_timer(ulong base)
-{
+ulong get_timer(ulong base) {
 	return mips_count_get() - base;
 }
 
-void set_timer(ulong t)
-{
+/*
+void set_timer(ulong t) {
 	mips_count_set(t);
 }
+*/
 
-void udelay (unsigned long usec)
-{
+void udelay(unsigned long usec) {
 	ulong tmo;
 	ulong start = get_timer(0);
 
 	tmo = usec * (CFG_HZ / 1000000);
-	while ((ulong)((mips_count_get() - start)) < tmo)
+	while ((ulong) ((mips_count_get() - start)) < tmo)
 		/*NOP*/;
 }
 
@@ -86,8 +80,7 @@ void udelay (unsigned long usec)
  * This function is derived from PowerPC code (read timebase as long long).
  * On MIPS it just returns the timer value.
  */
-unsigned long long get_ticks(void)
-{
+unsigned long long get_ticks(void) {
 	return mips_count_get();
 }
 
@@ -95,7 +88,6 @@ unsigned long long get_ticks(void)
  * This function is derived from PowerPC code (timebase clock frequency).
  * On MIPS it returns the number of timer ticks per second.
  */
-ulong get_tbclk(void)
-{
+ulong get_tbclk(void) {
 	return CFG_HZ;
 }

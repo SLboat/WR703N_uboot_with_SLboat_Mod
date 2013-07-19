@@ -34,7 +34,7 @@
 #
 
 CC=gcc
-CFLAGS=-Wall -fpack-struct -DDUMP=0
+CFLAGS=-Wall -O2 -fpack-struct -DDUMP=0
 
 all: uip
 

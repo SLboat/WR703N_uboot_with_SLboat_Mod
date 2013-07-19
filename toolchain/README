@@ -1,0 +1,2 @@
+Here you should extract toolchain for AR71xx platform (MIPS).
+For example: http://downloads.openwrt.org/attitude_adjustment/12.09-rc1/ar71xx/generic/OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2

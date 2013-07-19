@@ -205,19 +205,12 @@ reset:
 	mtc0	zero, $20
 	mtc0	zero, $21
 	mtc0	zero, $22
-#ifndef CONFIG_HORNET_EMU
 	mtc0	zero, $23
-#endif
 	mtc0	zero, $24
 	mtc0	zero, $25
 	mtc0	zero, $26
 	mtc0	zero, $27
 	mtc0	zero, $28
-#ifdef CONFIG_WASP_SUPPORT
-	mtc0	zero, $29	# C0_TagHi
-	mtc0	zero, $28, 2	# C0_DTagLo
-	mtc0	zero, $29, 2	# C0_DTagHi
-#endif
 
 	/*
 	 * Clear watch registers.
@@ -321,8 +314,9 @@ rel_start:
 
 #if defined(CONFIG_AR7100) || defined(CONFIG_AR7240)
 	/* REMAP_DISABLE */
+	// TODO: SPI flash clock?
 	li	a0, AR7100_SPI_CLOCK
-	li	t0, 0x43
+	li	t0, 0x42		// TODO: TEST TEST TEST, was 0x43
 	sw	t0, 0(a0)
 #endif
 
