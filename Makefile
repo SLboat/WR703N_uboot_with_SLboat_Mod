@@ -9,30 +9,51 @@ export AP121_MAX_UBOOT_SIZE=65536
 # boot delay (time to autostart boot command)
 export AP121_CONFIG_BOOTDELAY=1
 
-mr3020:	export UBOOT_FILE_NAME=uboot_for_mr3020
+mr3020:	export UBOOT_FILE_NAME=uboot_for_tl-mr3020
 mr3020:
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr3020_config
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
 	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
 	@make show_size
 	
-wr703n:	export UBOOT_FILE_NAME=uboot_for_wr703n
+wr703n:	export UBOOT_FILE_NAME=uboot_for_tl-wr703n
 wr703n:
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) wr703n_config
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
 	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
 	@make show_size
+
+wr720n_v3_CH:	export UBOOT_FILE_NAME=uboot_for_tl-wr720n_v3_CH
+wr720n_v3_CH:
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) wr720n_v3_CH_config
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
+	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
+	@make show_size
 	
-mr3040:	export UBOOT_FILE_NAME=uboot_for_mr3040
+mr3040:	export UBOOT_FILE_NAME=uboot_for_tl-mr3040
 mr3040:
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr3040_config
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
 	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
 	@make show_size
 
-wr740n_v4:	export UBOOT_FILE_NAME=uboot_for_wr740n_v4
+mr10u:	export UBOOT_FILE_NAME=uboot_for_tl-mr10u
+mr10u:
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr10u_config
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
+	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
+	@make show_size
+
+wr740n_v4:	export UBOOT_FILE_NAME=uboot_for_tl-wr740n_v4
 wr740n_v4:
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) wr740n_v4_config
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
+	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
+	@make show_size
+
+mr3220_v2:	export UBOOT_FILE_NAME=uboot_for_tl-mr3220_v2
+mr3220_v2:
+	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) mr3220_v2_config
 	@cd $(BUILD_TOPDIR)/u-boot/ && $(MAKECMD) ENDIANNESS=-EB V=1 all
 	@cp $(BUILD_TOPDIR)/u-boot/tuboot.bin $(BUILD_TOPDIR)/bin/temp.bin
 	@make show_size

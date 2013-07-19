@@ -66,7 +66,7 @@ void ar7240_led_toggle(void) {
 	gpio ^= 1 << GPIO_WPS_LED_BIT;
 #endif
 
-#ifdef CONFIG_PID_WR70301
+#if defined(CONFIG_PID_WR70301) || defined(CONFIG_PID_WR720N03CH)
 	gpio ^= 1 << GPIO_SYS_LED_BIT;
 #endif
 
@@ -74,7 +74,11 @@ void ar7240_led_toggle(void) {
 	gpio ^= 1 << GPIO_INTERNET_LED_BIT;
 #endif
 
-#ifdef CONFIG_PID_WR740N04
+#ifdef CONFIG_PID_MR10U01
+	gpio ^= 1 << GPIO_SYS_LED_BIT;
+#endif
+
+#if defined(CONFIG_PID_WR740N04) || defined(CONFIG_PID_MR322002)
 	gpio ^= 1 << GPIO_SYS_LED_BIT;
 #endif
 
@@ -93,7 +97,7 @@ void ar7240_all_led_on(void) {
 	SETBITVAL(gpio, GPIO_ETH_LED_BIT, GPIO_ETH_LED_ON);
 #endif
 
-#ifdef CONFIG_PID_WR70301
+#if defined(CONFIG_PID_WR70301) || defined(CONFIG_PID_WR720N03CH)
 	SETBITVAL(gpio, GPIO_SYS_LED_BIT, GPIO_SYS_LED_ON);
 #endif
 
@@ -103,7 +107,11 @@ void ar7240_all_led_on(void) {
 	SETBITVAL(gpio, GPIO_ETH_LED_BIT, GPIO_ETH_LED_ON);
 #endif
 
-#ifdef CONFIG_PID_WR740N04
+#ifdef CONFIG_PID_MR10U01
+	SETBITVAL(gpio, GPIO_SYS_LED_BIT, GPIO_SYS_LED_ON);
+#endif
+
+#if defined(CONFIG_PID_WR740N04) || defined(CONFIG_PID_MR322002)
 	SETBITVAL(gpio, GPIO_SYS_LED_BIT, GPIO_SYS_LED_ON);
 	SETBITVAL(gpio, GPIO_WLAN_LED_BIT, GPIO_WLAN_LED_ON);
 	SETBITVAL(gpio, GPIO_LAN1_LED_BIT, GPIO_LAN1_LED_ON);
@@ -112,6 +120,11 @@ void ar7240_all_led_on(void) {
 	SETBITVAL(gpio, GPIO_LAN4_LED_BIT, GPIO_LAN4_LED_ON);
 	SETBITVAL(gpio, GPIO_INTERNET_LED_BIT, GPIO_INTERNET_LED_ON);
 	SETBITVAL(gpio, GPIO_QSS_LED_BIT, GPIO_QSS_LED_ON);
+
+	#ifdef CONFIG_PID_MR322002
+	SETBITVAL(gpio, GPIO_USB_LED_BIT, GPIO_USB_LED_ON);
+	#endif
+
 #endif
 
 	ar7240_reg_wr(AR7240_GPIO_OUT, gpio);
@@ -129,7 +142,7 @@ void ar7240_all_led_off(void) {
 	SETBITVAL(gpio, GPIO_ETH_LED_BIT, !GPIO_ETH_LED_ON);
 #endif
 
-#ifdef CONFIG_PID_WR70301
+#if defined(CONFIG_PID_WR70301) || defined(CONFIG_PID_WR720N03CH)
 	SETBITVAL(gpio, GPIO_SYS_LED_BIT, !GPIO_SYS_LED_ON);
 #endif
 
@@ -139,7 +152,11 @@ void ar7240_all_led_off(void) {
 	SETBITVAL(gpio, GPIO_ETH_LED_BIT, !GPIO_ETH_LED_ON);
 #endif
 
-#ifdef CONFIG_PID_WR740N04
+#ifdef CONFIG_PID_MR10U01
+	SETBITVAL(gpio, GPIO_SYS_LED_BIT, !GPIO_SYS_LED_ON);
+#endif
+
+#if defined(CONFIG_PID_WR740N04) || defined(CONFIG_PID_MR322002)
 	SETBITVAL(gpio, GPIO_SYS_LED_BIT, !GPIO_SYS_LED_ON);
 	SETBITVAL(gpio, GPIO_WLAN_LED_BIT, !GPIO_WLAN_LED_ON);
 	SETBITVAL(gpio, GPIO_LAN1_LED_BIT, !GPIO_LAN1_LED_ON);
@@ -148,6 +165,11 @@ void ar7240_all_led_off(void) {
 	SETBITVAL(gpio, GPIO_LAN4_LED_BIT, !GPIO_LAN4_LED_ON);
 	SETBITVAL(gpio, GPIO_INTERNET_LED_BIT, !GPIO_INTERNET_LED_ON);
 	SETBITVAL(gpio, GPIO_QSS_LED_BIT, !GPIO_QSS_LED_ON);
+
+	#ifdef CONFIG_PID_MR322002
+	SETBITVAL(gpio, GPIO_USB_LED_BIT, !GPIO_USB_LED_ON);
+	#endif
+
 #endif
 
 	ar7240_reg_wr(AR7240_GPIO_OUT, gpio);
@@ -197,7 +219,7 @@ void ar7240_gpio_config(void) {
 	//ar7240_reg_wr (AR7240_GPIO_FUNC, (ar7240_reg_rd(AR7240_GPIO_FUNC) & 0xffe7e07f));
 #endif
 
-#ifdef CONFIG_PID_WR70301
+#if defined(CONFIG_PID_WR70301) || defined(CONFIG_PID_WR720N03CH)
 
 	/* LED's GPIOs on WR703N:
 	 *
@@ -227,6 +249,18 @@ void ar7240_gpio_config(void) {
 	//ar7240_reg_wr (AR7240_GPIO_FUNC, (ar7240_reg_rd(AR7240_GPIO_FUNC) & 0xffe7e07f));
 #endif
 
+#ifdef CONFIG_PID_MR10U01
+
+	/* LED's GPIOs on MR10U:
+	 *
+	 * 27	=> SYS
+	 *
+	 */
+
+	/* set OE, added by zcf, 20110714 */
+	ar7240_reg_wr(AR7240_GPIO_OE, (ar7240_reg_rd(AR7240_GPIO_OE) | 0x8000000));
+#endif
+
 #ifdef CONFIG_PID_WR740N04
 
 	/* LED's GPIOs on WR740Nv4:
@@ -244,6 +278,30 @@ void ar7240_gpio_config(void) {
 
 	/* set OE, added by zcf, 20110509 */
 	ar7240_reg_wr(AR7240_GPIO_OE, (ar7240_reg_rd(AR7240_GPIO_OE) | 0x803E003));
+
+	/* Disable clock obs, added by zcf, 20110509 */
+	// TODO: ????
+	//ar7240_reg_wr (AR7240_GPIO_FUNC, (ar7240_reg_rd(AR7240_GPIO_FUNC) & 0xffe7e07f));
+#endif
+
+#ifdef CONFIG_PID_MR322002
+
+	/* LED's GPIOs on MR3220v2:
+	 *
+	 * 0	=> WLAN
+	 * 1	=> QSS
+	 * 13	=> INTERNET
+	 * 14	=> LAN1
+	 * 15	=> LAN2
+	 * 16	=> LAN3
+	 * 17	=> LAN4
+	 * 26	=> USB
+	 * 27	=> SYS
+	 *
+	 */
+
+	/* set OE, added by zcf, 20110509 */
+	ar7240_reg_wr(AR7240_GPIO_OE, (ar7240_reg_rd(AR7240_GPIO_OE) | 0xC03E003));
 
 	/* Disable clock obs, added by zcf, 20110509 */
 	// TODO: ????

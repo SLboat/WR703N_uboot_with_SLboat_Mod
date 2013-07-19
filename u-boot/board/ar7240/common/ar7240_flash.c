@@ -119,7 +119,7 @@ unsigned long flash_init(void) {
 
 		case 0xEF4016:
 			flash_set_geom(SIZE_INBYTES_4MBYTES, 64, SIZE_INBYTES_64KBYTES);
-			puts("Windbond W25Q32 (4 MB)");
+			puts("Winbond W25Q32 (4 MB)");
 			break;
 
 		case 0xC22016:
@@ -152,12 +152,18 @@ unsigned long flash_init(void) {
 
 		case 0xEF4017:	// tested
 			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
-			puts("Windbond W25Q64 (8 MB)");
+			puts("Winbond W25Q64 (8 MB)");
 			break;
 
 		case 0xC22017:	// tested
+		case 0xC22617:
 			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
-			puts("Macronix MX25L640 (8 MB)");
+			puts("Macronix MX25L64 (8 MB)");
+			break;
+
+		case 0xBF254B:
+			flash_set_geom(SIZE_INBYTES_8MBYTES, 128, SIZE_INBYTES_64KBYTES);
+			puts("SST 25VF064C (8 MB)");
 			break;
 
 			/*
@@ -166,6 +172,12 @@ unsigned long flash_init(void) {
 		case 0xEF4018:	// tested
 			flash_set_geom(SIZE_INBYTES_16MBYTES, 256, SIZE_INBYTES_64KBYTES);
 			puts("Winbond W25Q128 (16 MB)");
+			break;
+
+		case 0xC22018:
+		case 0xC22618:
+			flash_set_geom(SIZE_INBYTES_16MBYTES, 256, SIZE_INBYTES_64KBYTES);
+			puts("Macronix MX25L128 (16 MB)");
 			break;
 
 			/*

@@ -290,6 +290,14 @@ wr703n_config : unconfig hornet_common_config
 	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
 	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-WR703N\"" >>include/config.h
 
+wr720n_v3_CH_config : unconfig hornet_common_config
+	@echo '======= Configuring for TL-WR720N v3 CH at:' `date` '======='
+	@echo "#define CONFIG_PID_WR720N03CH		1" >> include/config.h
+	@echo "#define GPIO_SYS_LED_BIT			27" >> include/config.h
+	@echo "#define GPIO_SYS_LED_ON			0" >> include/config.h
+	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
+	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-WR720N v3 CH\"" >>include/config.h
+
 mr3020_config : unconfig hornet_common_config
 	@echo '======= Configuring for TL-MR3020 at:' `date` '======='
 	@echo "#define CONFIG_PID_MR302001		1" >> include/config.h
@@ -316,6 +324,14 @@ mr3040_config : unconfig hornet_common_config
 	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
 	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-MR3040\"" >>include/config.h
 
+mr10u_config : unconfig hornet_common_config
+	@echo '======= Configuring for TL-MR10U at:' `date` '======='
+	@echo "#define CONFIG_PID_MR10U01		1" >> include/config.h
+	@echo "#define GPIO_SYS_LED_BIT			27" >> include/config.h
+	@echo "#define GPIO_SYS_LED_ON			0" >> include/config.h
+	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
+	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-MR10U\"" >>include/config.h
+
 wr740n_v4_config : unconfig hornet_common_config
 	@echo '======= Configuring for TL-WR740N v4 at:' `date` '======='
 	@echo "#define CONFIG_PID_WR740N04		1" >> include/config.h
@@ -336,7 +352,31 @@ wr740n_v4_config : unconfig hornet_common_config
 	@echo "#define GPIO_QSS_LED_BIT			1" >> include/config.h
 	@echo "#define GPIO_QSS_LED_ON			1" >> include/config.h
 	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
-	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-WR740N(D)v4\"" >>include/config.h
+	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-WR74xN/D v4\"" >>include/config.h
+
+mr3220_v2_config : unconfig hornet_common_config
+	@echo '======= Configuring for TL-MR3220 v2 at:' `date` '======='
+	@echo "#define CONFIG_PID_MR322002		1" >> include/config.h
+	@echo "#define GPIO_SYS_LED_BIT			27" >> include/config.h
+	@echo "#define GPIO_SYS_LED_ON			0" >> include/config.h
+	@echo "#define GPIO_WLAN_LED_BIT		0" >> include/config.h
+	@echo "#define GPIO_WLAN_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_LAN1_LED_BIT		14" >> include/config.h
+	@echo "#define GPIO_LAN1_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_LAN2_LED_BIT		15" >> include/config.h
+	@echo "#define GPIO_LAN2_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_LAN3_LED_BIT		16" >> include/config.h
+	@echo "#define GPIO_LAN3_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_LAN4_LED_BIT		17" >> include/config.h
+	@echo "#define GPIO_LAN4_LED_ON			0" >> include/config.h
+	@echo "#define GPIO_INTERNET_LED_BIT	13" >> include/config.h
+	@echo "#define GPIO_INTERNET_LED_ON		1" >> include/config.h
+	@echo "#define GPIO_QSS_LED_BIT			1" >> include/config.h
+	@echo "#define GPIO_QSS_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_USB_LED_BIT			26" >> include/config.h
+	@echo "#define GPIO_USB_LED_ON			1" >> include/config.h
+	@echo "#define GPIO_RST_BUTTON_BIT		11" >> include/config.h
+	@echo "#define BOARD_CUSTOM_STRING		\"AP121 (AR9331) U-Boot for TL-MR3220 v2\"" >>include/config.h
 
 #########################################################################
 #########################################################################

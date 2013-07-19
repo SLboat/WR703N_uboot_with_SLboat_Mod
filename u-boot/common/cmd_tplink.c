@@ -134,7 +134,7 @@ U_BOOT_CMD(printmodel, 1, 1, do_print_model, "print router model stored in flash
 #endif /* AP121_OFFSET_FLASH_ROUTER_MODEL */
 
 #ifdef AP121_OFFSET_FLASH_PIN_NUMBER
-#ifdef CONFIG_PID_MR302001 | CONFIG_PID_WR740N04
+#if defined(CONFIG_PID_MR302001) || defined(CONFIG_PID_WR740N04) || defined(CONFIG_PID_MR322002)
 /*
  * Show pin number
  */
@@ -154,5 +154,5 @@ int do_print_pin (cmd_tbl_t * cmdtp, int flag, int argc, char *argv[]) {
 
 U_BOOT_CMD(printpin, 1, 1, do_print_pin, "print WPS pin stored in flash\n", NULL);
 
-#endif /* CONFIG_PID_MR302001 */
+#endif
 #endif /* AP121_OFFSET_FLASH_PIN_NUMBER */
