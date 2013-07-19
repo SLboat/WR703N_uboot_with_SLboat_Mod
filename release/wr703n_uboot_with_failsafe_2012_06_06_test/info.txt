@@ -1,0 +1,2 @@
+wr703n_tuboot_test_2012_06_06.bin compiled out by the svn r15 source code.
+svn checkout -r 15 http://wr703n-uboot-with-web-failsafe.googlecode.com/svn/trunk/ wr703n-uboot-with-web-failsafe-read-only
