@@ -1,31 +1,11 @@
-Supported flash chips (recognized automaticly by JEDEC ID):
+SLboat's Mod uboot For Wr703
 
-4 MiB:
-- Spansion S25FL032P (4 MiB, JEDEC ID: 01 0215)*
-- Atmel AT25DF321 (4 MB, JEDEC ID: 1F 4700)
-- EON EN25Q32 (4 MB, JEDEC ID: 1C 3016)*
-- Micron M25P32 (4 MB, JEDEC ID: 20 2016)
-- Windbond W25Q32 (4 MB, JEDEC ID: EF 4016)
-- Macronix MX25L320 (4 MB, JEDEC ID: C2 2016)
+The mostly we wana to do is make the uboot pretty simple,but not to powerful,a little fix,that's what we wana,and some fun with the uboot mod.
 
-8 MiB:
 
-- Spansion S25FL064P (8 MB, JEDEC ID: 01 0216)
-- Atmel AT25DF641 (8 MB, JEDEC ID: 1F 4800)
-- EON EN25Q64 (8 MB, JEDEC ID: 1C 3017)*
-- Micron M25P64 (8 MB, JEDEC ID: 20 2017)
-- Windbond W25Q64 (8 MB, JEDEC ID: EF 4017)*
-- Macronix MX25L64 (8 MB, JEDEC ID: C2 2017, C2 2617)
-- SST 25VF064C (8 MB, JEDEC ID: BF 254B)
-
-16 MiB:
-- Winbond W25Q128 (16 MB, JEDEC ID: EF 4018)*
-- Macronix MX25L128 (16 MB, JEDEC ID: C2 2018, C2 2618)
-
-* - tested
-
-If you want to use other type, please contact with me: pepe2k@gmail.com
-
-More information about this project:
+## The mod base on: 
+pepe2k's uboot mod:
 http://www.tech-blog.pl/2013/03/29/zmodyfikowany-u-boot-dla-routerow-tp-link-z-atheros-ar9331-z-trybem-aktualizacji-oprogramowania-przez-www-i-konsola-sieciowa-netconsole/
 
+mips's uboot mod:
+http://code.google.com/p/wr703n-uboot-with-web-failsafe/
