@@ -1,0 +1,3 @@
+[submodule "tools/uip-source"]
+	path = tools/uip-source
+	url = https://github.com/adamdunkels/uip.git
