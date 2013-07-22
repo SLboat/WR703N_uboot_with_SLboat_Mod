@@ -1,4 +1,5 @@
 #!/usr/bin/perl
+# the tool can only work on mac,linux machine
 
 open(OUTPUT, "> fsdata.c");
 
