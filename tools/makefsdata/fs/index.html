@@ -12,10 +12,10 @@
     <body>
         <div id="main">
             <h1>
-                FIRMWARE UPGRADE
+                WR703N'S FIRMWARE UPGRADE
             </h1>
             <p>
-                You are going to upload new firmware image for the router. Please, choose
+                You are going to upload new firmware image(This only openwrt firmware without uboot and art,should not include the uboot part) for the router. Please, choose
                 appropriate file from your local hard drive and click
                 <strong>
                     Upload
@@ -46,7 +46,7 @@
             </p>
             <form method="post" enctype="multipart/form-data">
                 <strong style="margin-right:30px">
-                    Firmware image:
+                    Firmware image(dont use a long filename):
                 </strong>
                 <input type="file" name="firmware">
                 <input type="submit" value="Upload">
@@ -74,13 +74,18 @@
                 </ul>
             </div>
         </div>
-        <div class="foot">
+        <div class="foot">			
             This is a 
             <a href="https://github.com/SLboat/WR703N_uboot_with_SLboat_Mod">
                 SLboat's WR703N uboot mod
             </a>
+			<br />
+			if you like,you can found some SLboat mod fimware on
+			<a href="http://www.wr703.com/">
+				 SLboat's WR703 stuff.
+			</a>	
             <br />
-            This is base on 
+            This mod is base on 
             <a href="http://www.tech-blog.pl" target="_blank">
                 pepe2k
             </a>
