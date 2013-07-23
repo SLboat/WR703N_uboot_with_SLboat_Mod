@@ -1,1 +1,104 @@
-<!DOCTYPE HTML><html><head><meta charset="utf-8"><title>WR703N U-Boot upgrade - SLboat WR703 uboot mod</title><link rel="stylesheet" href="style.css" type="text/css" /></head><body><div id="main"><h1>U-BOOT UPGRADE</h1><p>You are going to upload new U-Boot image for the router. Please, choose appropriate file from your local hard drive and click <strong>Upload</strong>.<br/>The file will be downloaded, stored in <strong>RAM</strong> and then copied to <strong>FLASH</strong>. You can also upgrade <strong><a href="index.html">firmware</a></strong> and <strong><a href="art.html">ART</a></strong>.</p><form method="post" enctype="multipart/form-data"><strong style="margin-right:30px"> U-Boot image (exactly 64 KB):</strong><input type="file" name="uboot"><input type="submit" value="Upload"></form><div class="info error"><strong>WARNING!</strong>Upgrading the U-Boot is very dangerous operation and may damage your device! You have been warned!<br />If you upload wrong image, your router won't boot anymore and the only way to repair it will be manually reprogramming the FLASH!</div><div class="info warn"><strong>WARNINGS</strong><ul><li>do not power off the device during upload</li><li>if everything goes well, the router will restart and try to boot using new U-Boot</li><li>in case of any error during or after image upload, LED(s) will blink fast for a while and then the web failsafe mode will restart</li><li>you can upload whatever you want, so be sure that you choose proper U-Boot image for your router!</li><li>you should upload a file with size of exactly 64 KB</li></ul></div></div><div class="foot">If you have any suggestions or found a bug, feel free to contact with me: <a href="mailto:pepe2k@gmail.com">pepe2k@gmail.com</a><br />You can find more information about this project on my blog: <a href="http://www.tech-blog.pl" target="_blank">www.tech-blog.pl</a></div></body></html>
+<!DOCTYPE HTML>
+<html>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>
+            WR703N U-Boot upgrade - SLboat WR703 uboot mod
+        </title>
+        <link rel="stylesheet" href="style.css" type="text/css" />
+    </head>
+    
+    <body>
+        <div id="main">
+            <h1>
+                U-BOOT UPGRADE
+            </h1>
+            <p>
+                You are going to upload new U-Boot image for the router. Please, choose
+                appropriate file from your local hard drive and click
+                <strong>
+                    Upload
+                </strong>
+                .
+                <br/>
+                The file will be downloaded, stored in
+                <strong>
+                    RAM
+                </strong>
+                and then copied to
+                <strong>
+                    FLASH
+                </strong>
+                . You can also upgrade
+                <strong>
+                    <a href="index.html">
+                        firmware
+                    </a>
+                </strong>
+                and
+                <strong>
+                    <a href="art.html">
+                        ART
+                    </a>
+                </strong>
+                .
+            </p>
+            <form method="post" enctype="multipart/form-data">
+                <strong style="margin-right:30px">
+                    U-Boot image (exactly 64 KB):
+                </strong>
+                <input type="file" name="uboot">
+                <input type="submit" value="Upload">
+            </form>
+            <div class="info error">
+                <strong>
+                    WARNING!
+                </strong>
+                Upgrading the U-Boot is very dangerous operation and may damage your device!
+                You have been warned!
+                <br />
+                If you upload wrong image, your router won't boot anymore and the only
+                way to repair it will be manually reprogramming the FLASH!
+            </div>
+            <div class="info warn">
+                <strong>
+                    WARNINGS
+                </strong>
+                <ul>
+                    <li>
+                        do not power off the device during upload
+                    </li>
+                    <li>
+                        if everything goes well, the router will restart and try to boot using
+                        new U-Boot
+                    </li>
+                    <li>
+                        in case of any error during or after image upload, LED(s) will blink fast
+                        for a while and then the web failsafe mode will restart
+                    </li>
+                    <li>
+                        you can upload whatever you want, so be sure that you choose proper U-Boot
+                        image for your router!
+                    </li>
+                    <li>
+                        you should upload a file with size of exactly 64 KB
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot">
+            This is a 
+            <a href="https://github.com/SLboat/WR703N_uboot_with_SLboat_Mod">
+                SLboat's WR703N uboot mod
+            </a>
+            <br />
+            This is base on 
+            <a href="http://www.tech-blog.pl" target="_blank">
+                pepe2k
+            </a>
+			,mips great work.
+        </div>
+    </body>
+
+</html>
